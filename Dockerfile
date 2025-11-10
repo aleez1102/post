@@ -12,7 +12,7 @@ ENV DB_SQLITE_DATABASE=/data/database.sqlite
 ENV N8N_USER_FOLDER=/data
 
 # ✅ Don't create /data here — Render mounts it automatically
-VOLUME ["/data"]
+VOLUME ["/tmp"]
 
 EXPOSE 5678
 CMD ["n8n", "start"]
