@@ -1,1 +1,65 @@
 
+services:
+  - type: web
+    name: n8n-auto-blogger
+    env: docker
+    plan: starter
+    autoDeploy: true
+
+    # Use official n8n Docker image
+    dockerfilePath: ./Dockerfile
+
+    envVars:
+      # ✅ Core setup
+      - key: N8N_BASIC_AUTH_ACTIVE
+        value: "true"
+      - key: N8N_BASIC_AUTH_USER
+        value: "admin"
+      - key: N8N_BASIC_AUTH_PASSWORD
+        value: "yourpassword"
+
+      # ✅ URLs
+      - key: N8N_HOST
+        value: "n8n-auto-blogger.onrender.com"
+      - key: N8N_PORT
+        value: "5678"
+      - key: N8N_PROTOCOL
+        value: "https"
+      - key: WEBHOOK_TUNNEL_URL
+        value: "https://n8n-auto-blogger.onrender.com"
+
+      # ✅ Data persistence
+      - key: DB_TYPE
+        value: "sqlite"
+      - key: DB_SQLITE_DATABASE
+        value: "/data/database.sqlite"
+
+      # ✅ n8n storage directory
+      - key: N8N_USER_FOLDER
+        value: "/data"
+
+      # ✅ Timezone and optional logging
+      - key: GENERIC_TIMEZONE
+        value: "Asia/Kolkata"
+      - key: NODE_ENV
+        value: "production"
+
+      # ✅ Optional external service credentials
+      - key: WP_SITE_URL
+        value: "https://mei-reviews.rf.gd"
+      - key: WP_USER
+        value: "autoblog"
+      - key: WP_PASSWORD
+        value: "your_wp_password"
+
+      - key: GOOGLE_SHEET_DEDUPE_ID
+        value: "your_google_sheet_id"
+      - key: PERPLEXITY_API_KEY
+        value: "your_perplexity_api_key"
+      - key: OPENROUTER_API_KEY
+        value: "your_openrouter_api_key"
+      - key: GEMINI_API_KEY
+        value: "your_gemini_api_key"
+
+      # Optional indexing + sharing
+      - key: GOOGL
