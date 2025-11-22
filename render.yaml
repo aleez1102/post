@@ -7,18 +7,14 @@ services:
     env: docker
     region: oregon
     plan: free
-    branch: main
     rootDir: rewrite-ms
     dockerfilePath: Dockerfile
-    buildCommand: ""
-    startCommand: "node index.js"
     autoDeploy: true
     envVars:
       - key: SERVICE_NAME
         value: rewrite-preprocessor
       - key: API_KEY
         sync: false
-    healthCheckPath: /health
 
   # ------------------------------
   # INTERNAL LINK ENGINE
@@ -28,15 +24,12 @@ services:
     env: docker
     region: oregon
     plan: free
-    branch: main
     rootDir: internal-link-ms
     dockerfilePath: Dockerfile
-    startCommand: "node index.js"
     autoDeploy: true
     envVars:
       - key: SERVICE_NAME
         value: internal-link-engine
-    healthCheckPath: /health
 
   # ------------------------------
   # PREDICTION ENGINE
@@ -48,17 +41,15 @@ services:
     plan: free
     rootDir: prediction-ms
     dockerfilePath: Dockerfile
-    startCommand: "node server.js"
     autoDeploy: true
     envVars:
       - key: SERVICE_NAME
         value: prediction-engine
       - key: OPENAI_API_KEY
         sync: false
-    healthCheckPath: /health
 
   # ------------------------------
-  # DB ROTATION SERVICE
+  # DB ROTATION WORKER
   # ------------------------------
   - type: worker
     name: db-rotation-worker-ms
@@ -67,12 +58,10 @@ services:
     plan: free
     rootDir: db-rotation-ms
     dockerfilePath: Dockerfile
-    startCommand: "node rotate.js"
     autoDeploy: true
     envVars:
       - key: CRON_SCHEDULE
         value: "0 */6 * * *"   # every 6 hours
-    healthCheckPath: /health
 
   # ------------------------------
   # TTS PROXY MICROSERVICE
@@ -84,17 +73,15 @@ services:
     plan: free
     rootDir: tts-proxy-ms
     dockerfilePath: Dockerfile
-    startCommand: "python3 app.py"
     autoDeploy: true
     envVars:
       - key: TTS_PROVIDER
         value: openai
       - key: OPENAI_API_KEY
         sync: false
-    healthCheckPath: /health
 
 # ------------------------------
-# GLOBAL ENV LINKS (Orchestrator)
+# ENV VAR GROUP FOR ORCHESTRATOR
 # ------------------------------
 envVarGroups:
   - name: orchestrator-microservices
