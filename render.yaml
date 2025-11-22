@@ -49,9 +49,9 @@ services:
         sync: false
 
   # ------------------------------
-  # DB ROTATION WORKER
+  # DB ROTATION (Web + Cron Job)
   # ------------------------------
-  - type: worker
+  - type: web
     name: db-rotation-worker-ms
     env: docker
     region: oregon
@@ -61,7 +61,10 @@ services:
     autoDeploy: true
     envVars:
       - key: CRON_SCHEDULE
-        value: "0 */6 * * *"   # every 6 hours
+        value: "0 */6 * * *"
+    cron:
+      - command: "node rotate.js"
+        schedule: "0 */6 * * *"
 
   # ------------------------------
   # TTS PROXY MICROSERVICE
